@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 const eventos = require('./src/base/events')
 const registerSlashCommands = require('./src/functions/registerSlashCommands.js');
 
-
 dotenv.config();
 
 const client = new Discord.Client({
