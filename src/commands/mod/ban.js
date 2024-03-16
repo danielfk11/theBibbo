@@ -6,7 +6,7 @@ const embeds = require("../../utils/embeds");
 module.exports = {
     name: 'ban',
     description: 'Banir um membro do servidor',
-    type: "CHAT_INPUT",
+    type: ApplicationCommandType.ChatInput,
     options: [
         {
             name: 'usuário',
