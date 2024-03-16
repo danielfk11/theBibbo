@@ -1,7 +1,6 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,PermissionFlagsBits, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
-
-const allowedIDs = [config.idddany, config.idsiix]; 
+const embeds = require("../../utils/embeds")
 
 module.exports = {
   name: "banir",
@@ -25,20 +24,14 @@ module.exports = {
   run: async (client, interaction) => {
     
     const member = interaction.options.getUser('membro');
-    const membro = interaction.user
+    const membro = interaction.member
     const user = interaction.guild.members.cache.get(member.id)
     const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.'
     const currentDate = new Date();
     const timestamp = Math.floor(currentDate.getTime() / 1000);
 
-    const permEmbed = new EmbedBuilder()
-      .setDescription(
-        `Você não possui permissão para utilizar este comando, ${membro}`
-      )
-      .setColor(config.EmbedColor);
-
-    if (!allowedIDs.includes(membro.id)) {
-      await interaction.reply({ embeds: [permEmbed], ephemeral: true });
+    if (!membro.permissions.has(PermissionFlagsBits.BanMembers)) {
+      await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
       return;
     }
 

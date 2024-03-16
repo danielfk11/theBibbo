@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const config = require("../../config.json");
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("database.db");
 const embeds = require("../utils/embeds");
 const {
   GatewayIntentBits,

@@ -1,50 +1,52 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType,PermissionFlagsBits, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,PermissionFlagsBits, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds")
 
 module.exports = {
-  name: "desbanir",
-  description: "Remova o banimento de um membro banido!",
+  name: "kick",
+  description: "Aplique um banimento em um membro!",
   type: ApplicationCommandType.ChatInput,
   options: [
     {
         name: 'membro',
         description: 'Insira o id do membro!',
-        type: ApplicationCommandOptionType.Number,
+        type: ApplicationCommandOptionType.User,
         required: true
     },
     {
         name: 'motivo',
-        description: 'Insira o motivo do desban!',
+        description: 'Insira o motivo do ban!',
         type: ApplicationCommandOptionType.String,
         require: false
     }
   ],
 
   run: async (client, interaction) => {
-    const member = interaction.options.getNumber('membro');
+    
+    const member = interaction.options.getUser('membro');
     const membro = interaction.member
+    const user = interaction.guild.members.cache.get(member.id)
     const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.'
     const currentDate = new Date();
     const timestamp = Math.floor(currentDate.getTime() / 1000);
 
-      if (!membro.permissions.has(PermissionFlagsBits.Administrator)) {
+    if (!membro.permissions.has(PermissionFlagsBits.KickMembers)) {
       await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
       return;
     }
 
     let embed = new EmbedBuilder()
-      .setTitle(`${config.NomeDoServidor} | Membro desbanido`, config.LogoDoServidor)
-      .setDescription(`Um novo membro foi desbanido por ${interaction.user}, informações adicionais:`)
+      .setTitle(`${config.NomeDoServidor} | Membro Kickado`, config.LogoDoServidor)
+      .setDescription(`Um novo membro foi kickado por ${interaction.user}, informações adicionais:`)
       .addFields(
-       {name: `Membro Desbanido:`, value: `<@${member}>`, inline: false},
+       {name: `Membro Kickado:`, value: `<@${member}>`, inline: false},
        {name: `Motivo:`, value: `${motivo}`, inline: false},
        {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
-       {name: `Desbanido faz:`, value: `<t:${timestamp}:R>`, inline: false},
+       {name: `Kickado faz:`, value: `<t:${timestamp}:R>`, inline: false},
       )
       .setColor(config.EmbedColor);
 
     interaction.reply({ embeds: [embed]});
-    interaction.guild.members.unban(member, motivo)
+   user.ban(member, motivo)
   }
 };

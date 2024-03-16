@@ -1,39 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType, PermissionFlagsBits } = require("discord.js");
 const config = require("../../../config.json");
-
-const allowedIDs = [config.idddany, config.idsiix]; 
-
-function parseTimeToMs(timeString) {
-    const regex = /(\d+)\s*(ms|m|s|h|d)?/g;
-    const matches = Array.from(timeString.matchAll(regex));
-    let totalTimeMs = 0;
-    for (const match of matches) {
-        const [, value, unit] = match;
-        const numericValue = parseInt(value, 10);
-        let timeInMs = numericValue;
-        if (unit) {
-            switch (unit) {
-                case 'ms':
-                    timeInMs = numericValue;
-                    break;
-                case 's':
-                    timeInMs = numericValue * 1000;
-                    break;
-                case 'min':
-                    timeInMs = numericValue * 60000;
-                    break;
-                case 'h':
-                    timeInMs = numericValue * 3600000;
-                    break;
-                case 'd':
-                    timeInMs = numericValue * 86400000;
-                    break;
-            }
-        }
-        totalTimeMs += timeInMs;
-    }
-    return totalTimeMs;
-}
+const embeds = require("../../utils/embeds");
+const { parseTimeToMs } = require('../../functions/parseTimeToMs');
 
 module.exports = {
     name: "mutar",
@@ -60,40 +28,35 @@ module.exports = {
     ],
 
     run: async (client, interaction) => {
-        const membro = interaction.user
-        const permEmbed = new EmbedBuilder()
-        .setDescription(
-          `Você não possui permissão para utilizar este comando, ${membro}`
-        )
-        .setColor(config.EmbedColor);
-  
-      if (!allowedIDs.includes(membro.id)) {
-        await interaction.reply({ embeds: [permEmbed], ephemeral: true });
-        return;
-      }
+        const membro = interaction.member
+
+        if (!membro.permissions.has(PermissionFlagsBits.Administrator)) {
+            await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
+            return;
+        }
     
         const memberId = interaction.options.getUser('membro').id;
         const member = await interaction.guild.members.fetch(memberId);
-        const reason = interaction.options.getString('motivo') || 'Sem motivo declarado.'
-        const tempoString = interaction.options.getString('tempo')
+        const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.'; // Corrigido para motivo
+        const tempoString = interaction.options.getString('tempo');
 
         let tempoMs = 0;
         if (tempoString) {
             tempoMs = parseTimeToMs(tempoString);
         }
 
-        member.timeout(tempoMs, reason)
+        member.timeout(tempoMs, motivo);
 
         let embed = new EmbedBuilder()
-        .setTitle(`${config.NomeDoServidor} | Membro castigado`, config.LogoDoServidor)
-        .setDescription(`Um novo membro foi castigado por ${interaction.user}, informações adicionais:`)
-        .addFields(
-         {name: `Membro castigado:`, value: `<@${member}>`, inline: false},
-         {name: `Motivo:`, value: `${motivo}`, inline: false},
-         {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
-         {name: `Castigado por:`, value: `${tempoString}`, inline: false},
-        )
-        .setColor(config.EmbedColor);
-        interaction.reply({embeds: [embed]})
+            .setTitle(`${config.NomeDoServidor} | Membro castigado`, config.LogoDoServidor)
+            .setDescription(`Um novo membro foi castigado por ${interaction.user}, informações adicionais:`)
+            .addFields(
+                {name: `Membro castigado:`, value: `${member}`, inline: false},
+                {name: `Motivo:`, value: `${motivo}`, inline: false},
+                {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
+                {name: `Castigado por:`, value: `${tempoString}`, inline: false},
+            )
+            .setColor(config.EmbedColor);
+        interaction.reply({embeds: [embed]});
     }
-}
+};

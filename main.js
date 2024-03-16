@@ -1,6 +1,7 @@
-const Discord = require("discord.js");
 const dotenv = require('dotenv');
+const Discord = require("discord.js");
 const eventos = require('./src/base/events')
+const { connectToDatabase } = require('./src/functions/databaseConnect.js');
 const registerSlashCommands = require('./src/functions/registerSlashCommands.js');
 
 dotenv.config();
@@ -14,8 +15,11 @@ const client = new Discord.Client({
   ],
 });
 
+
 registerSlashCommands(client);
 eventos(client);
+const db = connectToDatabase();
+
 
 process.on('multipleResolutions', (type, reason, promise) => {
   console.log(`🚫 Erro Detectado\n\n` + type, promise, reason)

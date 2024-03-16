@@ -28,7 +28,7 @@ module.exports = {
     const currentDate = new Date();
     const timestamp = Math.floor(currentDate.getTime() / 1000);
 
-      if (!membro.permissions.has(PermissionFlagsBits.Administrator)) {
+      if (!membro.permissions.has(PermissionFlagsBits.BanMembers)) {
       await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
       return;
     }

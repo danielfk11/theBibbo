@@ -1,31 +1,25 @@
-const Discord = require("discord.js")
+const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
-
-const allowedIDs = [config.idddany, config.idsiix]; 
+const embeds = require("../../utils/embeds")
 
 module.exports = {
-  name: "lock",
-  description: "Bloqueie um canal.",
-  type: Discord.ApplicationCommandType.ChatInput,
+  name: "unlock",
+  description: "Desbloqueie um canal.",
+  type: ApplicationCommandType.ChatInput,
   options: [
     {
         name: "canal",
         description: "Mencione um canal para o bloquear o chat.",
-        type: Discord.ApplicationCommandOptionType.Channel,
+        type: ApplicationCommandOptionType.Channel,
         required: true,
     }
 ],
 
   run: async (client, interaction) => {
-    const member = interaction.user
-    const permEmbed = new EmbedBuilder()
-      .setDescription(
-        `Você não possui permissão para utilizar este comando, ${member}`
-      )
-      .setColor(config.EmbedColor);
+    const member = interaction.member
 
-    if (!allowedIDs.includes(member.id)) {
-      await interaction.reply({ embeds: [permEmbed], ephemeral: true });
+    if (!member.permissions.has(PermissionFlagsBits.ManageChannels)) {
+      await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
       return;
     } else {
         const canal = interaction.options.getChannel("canal")

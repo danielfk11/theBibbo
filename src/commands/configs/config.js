@@ -29,7 +29,6 @@ module.exports = {
     const selectMenuOptions = [
       { label: 'Configurar Canal de Logs', value: 'configurarlogs', emoji: '📜' },
       { label: 'Criar Banco de Dados', value: 'createdb', emoji: '🗂️' },
-      // Adicione outras opções conforme necessário
     ];
 
     const selectMenu = new SelectMenuBuilder()
