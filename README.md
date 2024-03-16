@@ -12,7 +12,7 @@ theBibbo é um bot público para Discord desenvolvido utilizando a biblioteca Di
 1. Clone o repositório para o seu ambiente local:
 
 ```
-git clone https://github.com/seu-usuario/theBibbo.git
+git clone https://github.com/danielfk11/theBibbo.git
 ```
 
 
