@@ -49,7 +49,6 @@ function registerSlashCommands(client) {
                 name: command.name,
                 description: command.description,
                 options: command.options,
-                type: "CHAT_INPUT",
             })),
             { debug: true }
         );

@@ -4,6 +4,7 @@
     "discord.js": "^14.14.1",
     "dotenv": "^16.4.5",
     "fs": "^0.0.1-security",
+    "moment": "^2.30.1",
     "sqlite3": "^5.1.7"
   },
   "name": "thebibbo",
