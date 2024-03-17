@@ -15,6 +15,9 @@ const {
   ButtonStyle,
   ButtonBuilder,
 } = require("discord.js");
+const path = require("path");
+const dbPath = path.resolve(__dirname, "..","..", "database", "database.db");
+const db = new sqlite3.Database(dbPath)
 
 /**
  * @param {Discord.Interaction} interaction
@@ -50,6 +53,7 @@ module.exports = async (client, interaction, guild, message) => {
     await interaction.showModal(modal);
   }
 
+
   if (interaction.customId === "alteraravatar") {
     if (
       !interaction.member.permissions.has(PermissionFlagsBits.Administrator)
@@ -76,6 +80,7 @@ module.exports = async (client, interaction, guild, message) => {
   }
 
 
+
   if(interaction.customId === 'alteranome') {
     const new_name = interaction.fields.getTextInputValue('alterar_nome');
   
@@ -87,6 +92,7 @@ module.exports = async (client, interaction, guild, message) => {
     }
 }
   
+
 if(interaction.customId === 'alterfoto') {
     const new_name = interaction.fields.getTextInputValue('alterar_foto');
   
@@ -99,8 +105,48 @@ if(interaction.customId === 'alterfoto') {
 }
 
 
+if (interaction.isSelectMenu()) {
+  const selectedValue = interaction.values[0];
+  
+  if (selectedValue === 'createdb') {
+    interaction.message.edit()
+    const guildId = interaction.guildId;
 
+    const checkSql = `SELECT * FROM servidores WHERE guild_id = ?`;
 
+    db.get(checkSql, [guildId], (err, row) => {
+      if (err) {
+        return console.error("Erro ao verificar se o servidor já existe:", err.message);
+      }
+
+      if (row) {
+        let embed = new EmbedBuilder()
+          .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
+          .setDescription(`\`\`❌\`\` **Erro, servidor já está no banco de dados.**`)
+          .setColor(config.EmbedColor);
+
+        interaction.reply({embeds: [embed], ephemeral: true});
+      } else {
+        const insertSql = `INSERT INTO servidores (guild_id, dono_id) VALUES (?, ?)`;
+
+        db.run(insertSql, [guildId, interaction.user.id], function(err) {
+          if (err) {
+            return console.error("Erro ao inserir ID do servidor:", err.message);
+          }
+
+          console.log(`ID do servidor ${guildId} adicionado à tabela de servidores.`);
+
+          let embed = new EmbedBuilder()
+            .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
+            .setDescription(`\`\`✅\`\` **Sucesso, servidor inserido no banco de dados.**`)
+            .setColor(config.EmbedColor);
+
+          interaction.reply({embeds: [embed], ephemeral: true});
+        });
+      }
+    });
+  }
+}
 
 
 };

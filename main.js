@@ -16,7 +16,6 @@ const client = new Discord.Client({
   ],
 });
 
-
 registerSlashCommands(client);
 eventos(client);
 connectToDatabase();
@@ -40,7 +39,5 @@ process.on('uncaughtException', (error, origin) => {
 process.on('uncaughtExceptionMonitor', (error, origin) => {
   console.log(`🚫 Erro Detectado em uncaughtExceptionMonitor:\n\n`, error.stack);
 });
-
-
 
 client.login(process.env.DISCORD_TOKEN);
