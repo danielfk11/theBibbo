@@ -51,7 +51,7 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue para r
 
 Este projeto está licenciado sob a MIT License.
 
-**theBibbo** é mantido por Seu Nome.
+**theBibbo** é mantido por Nine9 Company.
 
 Certifique-se de substituir as variáveis como `SEU_TOKEN_AQUI`, `ID_DO_USUÁRIO_DDANY`, `ID_DO_USUÁRIO_SIIX` e `Seu Nome` com os valores corretos. Se precisar de mais alguma coisa, estou à disposição para ajudar!
 
