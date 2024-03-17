@@ -11,7 +11,7 @@ function loadCommands(directory, client) {
         const stats = fs.statSync(fullPath);
 
         if (stats.isDirectory()) {
-            loadCommands(fullPath, client); // Se for um diretório, chama a função novamente
+            loadCommands(fullPath, client);
         } else if (file.endsWith('.js')) {
             const props = require(fullPath);
             const commandName = file.split('.')[0];
@@ -28,9 +28,7 @@ function registerSlashCommands(client) {
     client.interactions = new Discord.Collection();
     client.register_arr = [];
 
-    // Caminho para o diretório 'commands'
     const commandsDir = path.join(__dirname, '..', '..', 'src', 'commands');
-
 
     loadCommands(commandsDir, client);
 

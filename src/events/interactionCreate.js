@@ -80,8 +80,8 @@ module.exports = async (client, interaction, guild, message) => {
     const new_name = interaction.fields.getTextInputValue('alterar_nome');
   
     try {
-      await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
       await client.user.setUsername(new_name);
+      await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
     } catch {
       await interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
     }
@@ -91,11 +91,16 @@ if(interaction.customId === 'alterfoto') {
     const new_name = interaction.fields.getTextInputValue('alterar_foto');
   
     try {
-      await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
       await client.user.setAvatar(new_name);
+      await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
     } catch {
       await interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
     }
 }
+
+
+
+
+
 
 };

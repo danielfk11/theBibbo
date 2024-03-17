@@ -34,7 +34,7 @@ module.exports = {
     }
 
     let embed = new EmbedBuilder()
-      .setTitle(`${config.NomeDoServidor} | Membro desbanido`, config.LogoDoServidor)
+      .setAuthor({name: `${config.NomeDoServidor} | Membro desbanido`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi desbanido por ${interaction.user}, informações adicionais:`)
       .addFields(
        {name: `Membro Desbanido:`, value: `<@${member}>`, inline: false},

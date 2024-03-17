@@ -36,7 +36,7 @@ module.exports = {
     }
 
     let embed = new EmbedBuilder()
-      .setTitle(`${config.NomeDoServidor} | Membro Kickado`, config.LogoDoServidor)
+      .setAuthor({name: `${config.NomeDoServidor} | Membro Kickado`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi kickado por ${interaction.user}, informações adicionais:`)
       .addFields(
        {name: `Membro Kickado:`, value: `<@${member}>`, inline: false},

@@ -36,7 +36,7 @@ module.exports = {
     }
 
     let embed = new EmbedBuilder()
-      .setTitle(`${config.NomeDoServidor} | Membro banido`, config.LogoDoServidor)
+      .setAuthor({name: `${config.NomeDoServidor} | Membro Banido`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi banido por ${interaction.user}, informações adicionais:`)
       .addFields(
        {name: `Membro banido:`, value: `<@${member}>`, inline: false},

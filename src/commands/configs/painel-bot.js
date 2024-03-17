@@ -1,5 +1,6 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder, ApplicationCommandType, ButtonStyle } = require("discord.js");
 const config = require("../../../config.json");
+const embeds = require("../../utils/embeds")
 
 const allowedIDs = [config.idddany, config.idsiix]; 
 
@@ -10,19 +11,14 @@ module.exports = {
 
   run: async (client, interaction) => {
     const member = interaction.member;
-    const permEmbed = new EmbedBuilder()
-      .setDescription(
-        `Você não possui permissão para utilizar este comando, ${member}`
-      )
-      .setColor(config.EmbedColor);
 
     if (!allowedIDs.includes(member.id)) {
-      await interaction.reply({ embeds: [permEmbed], ephemeral: true });
+      await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
       return;
     }
 
     let embed = new EmbedBuilder()
-      .setTitle(`${config.NomeDoServidor} | Painel do Bot`, config.LogoDoServidor)
+      .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
       .setDescription("Bem-vindo ao Painel do Bot! Aqui você pode personalizar as configurações do seu bot, incluindo seu nome e avatar. Sinta-se à vontade para ajustar conforme necessário para atender às suas necessidades.")
       .setColor(config.EmbedColor);
 

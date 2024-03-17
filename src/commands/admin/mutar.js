@@ -48,7 +48,7 @@ module.exports = {
         member.timeout(tempoMs, motivo);
 
         let embed = new EmbedBuilder()
-            .setTitle(`${config.NomeDoServidor} | Membro castigado`, config.LogoDoServidor)
+            .setAuthor({name: `${config.NomeDoServidor} | Membro castigado`, iconURL: config.LogoDoServidor})
             .setDescription(`Um novo membro foi castigado por ${interaction.user}, informações adicionais:`)
             .addFields(
                 {name: `Membro castigado:`, value: `${member}`, inline: false},
