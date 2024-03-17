@@ -10,7 +10,7 @@ module.exports = {
     {
         name: 'membro',
         description: 'Insira o id do membro!',
-        type: ApplicationCommandOptionType.Number,
+        type: ApplicationCommandOptionType.String,
         required: true
     },
     {
@@ -22,7 +22,7 @@ module.exports = {
   ],
 
   run: async (client, interaction) => {
-    const member = interaction.options.getNumber('membro');
+    const member = interaction.options.getString('membro');
     const membro = interaction.member
     const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.'
     const currentDate = new Date();
@@ -45,6 +45,6 @@ module.exports = {
       .setColor(config.EmbedColor);
 
     interaction.reply({ embeds: [embed]});
-    interaction.guild.members.unban(member, motivo)
+    interaction.guild.members.unban(member, motivo);
   }
 };

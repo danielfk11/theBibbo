@@ -34,7 +34,7 @@ module.exports = {
      const deletando = await canal.bulkDelete(quantidade)
      const qntd = deletando.size
 
-     interaction.reply({content: `O canal teve ${qntd} mensagens deletas por ${interaction.user}.`, ephemeral: true})
+     interaction.reply({content: `O canal teve \`\`${qntd}\`\` mensagens deletas por ${interaction.user}.`})
 
     }
 }

@@ -39,7 +39,7 @@ module.exports = {
       .setAuthor({name: `${config.NomeDoServidor} | Membro Banido`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi banido por ${interaction.user}, informações adicionais:`)
       .addFields(
-       {name: `Membro banido:`, value: `<@${member}>`, inline: false},
+       {name: `Membro banido:`, value: `${member}`, inline: false},
        {name: `Motivo:`, value: `${motivo}`, inline: false},
        {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
        {name: `Banido faz:`, value: `<t:${timestamp}:R>`, inline: false},

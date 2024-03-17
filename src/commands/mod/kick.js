@@ -39,7 +39,7 @@ module.exports = {
       .setAuthor({name: `${config.NomeDoServidor} | Membro Kickado`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi kickado por ${interaction.user}, informações adicionais:`)
       .addFields(
-       {name: `Membro Kickado:`, value: `<@${member}>`, inline: false},
+       {name: `Membro Kickado:`, value: `${member}`, inline: false},
        {name: `Motivo:`, value: `${motivo}`, inline: false},
        {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
        {name: `Kickado faz:`, value: `<t:${timestamp}:R>`, inline: false},
@@ -47,6 +47,6 @@ module.exports = {
       .setColor(config.EmbedColor);
 
     interaction.reply({ embeds: [embed]});
-   user.ban(member, motivo)
+   user.kick(member, motivo)
   }
 };
