@@ -3,22 +3,25 @@ const Discord = require("discord.js");
 const eventos = require('./src/base/events')
 const commandHandler = require('./src/controller/commandHandler.js');
 const { connectToDatabase } = require('./src/functions/databaseConnect.js');
+const { createDatabase } = require("./src/functions/databaseCreate.js");
+
 const registerSlashCommands = require('./src/functions/registerSlashCommands.js');
 
 dotenv.config();
 
 const client = new Discord.Client({
   intents: [
-      Discord.GatewayIntentBits.Guilds,
-      Discord.GatewayIntentBits.GuildMessages,
-      Discord.GatewayIntentBits.MessageContent,
-      Discord.GatewayIntentBits.GuildMembers,
+    Discord.GatewayIntentBits.Guilds,
+    Discord.GatewayIntentBits.GuildMessages,
+    Discord.GatewayIntentBits.MessageContent,
+    Discord.GatewayIntentBits.GuildMembers,
   ],
 });
 
 registerSlashCommands(client);
 eventos(client);
 connectToDatabase();
+createDatabase();
 
 client.on('messageCreate', (message) => {
   commandHandler.handleCommandMention(client, message);

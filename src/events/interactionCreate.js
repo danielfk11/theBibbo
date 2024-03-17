@@ -134,8 +134,6 @@ if (interaction.isSelectMenu()) {
             return console.error("Erro ao inserir ID do servidor:", err.message);
           }
 
-          console.log(`ID do servidor ${guildId} adicionado à tabela de servidores.`);
-
           let embed = new EmbedBuilder()
             .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
             .setDescription(`\`\`✅\`\` **Sucesso, servidor inserido no banco de dados.**`)
@@ -146,6 +144,40 @@ if (interaction.isSelectMenu()) {
       }
     });
   }
+
+  if (selectedValue === 'configurarlogs') {
+    interaction.message.edit()
+
+    if (
+      !interaction.member.permissions.has(PermissionFlagsBits.Administrator)
+    ) {
+      interaction.reply({ embeds: [embeds.embednaopode], ephemeral: true });
+      return;
+    }
+
+    const modal = new ModalBuilder()
+      .setCustomId("cfglogs")
+      .setTitle("Altere o canal de logs do servidor");
+
+
+      // FINALIZAR DANNY 
+    const modal_1 = new TextInputBuilder()
+      .setCustomId("alterar_foto")
+      .setLabel("Qual é a nova imagem?")
+      .setStyle(TextInputStyle.Short)
+      .setPlaceholder("Insira o link da imagem aqui: ")
+      .setMinLength(1)
+      .setRequired(true);
+
+    const resposta_1 = new ActionRowBuilder().addComponents(modal_1);
+    modal.addComponents(resposta_1);
+    await interaction.showModal(modal);
+
+
+
+  }
+
+
 }
 
 
