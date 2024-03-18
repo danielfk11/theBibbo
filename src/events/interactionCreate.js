@@ -162,10 +162,10 @@ if (interaction.isSelectMenu()) {
 
       // FINALIZAR DANNY 
     const modal_1 = new TextInputBuilder()
-      .setCustomId("alterar_foto")
-      .setLabel("Qual é a nova imagem?")
+      .setCustomId("")
+      .setLabel("")
       .setStyle(TextInputStyle.Short)
-      .setPlaceholder("Insira o link da imagem aqui: ")
+      .setPlaceholder(" ")
       .setMinLength(1)
       .setRequired(true);
 
