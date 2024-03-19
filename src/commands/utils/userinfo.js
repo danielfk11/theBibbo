@@ -23,15 +23,15 @@ module.exports = {
             await axios.get(`https://api.meshapis.cc/user/${membro.id}`).then(function (db) {
 
                 const flags = {
-                    ActiveDeveloper: "<:devpobre:1195048711533908082>", // Active Developer
-                    PremiumEarlySupporter: "<:pig_midia:1195048779045421217>", // Pig
+                    ActiveDeveloper: "<:BadgeActiveDeveloper:1219443127257923674>", // Active Developer
+                    PremiumEarlySupporter: "<:Sv_GoldenPig:1219443222397587496>", // Pig
                     VerifiedDeveloper: "<:devrico:1199429680701382687>", //Developer
-                    Partner: "<:partner:1209242240442957894>", //Partner (Dono de servidor parceiro)
-                    HypeSquadOnlineHouse1: "<:HypeSquad_Bravery:1199429595364069487>", //Hypesquad Bravery (Roxo)
-                    Hypesquad: "<:HypeSquad_Event:1199429425398296577>", //Hypesquad Events (Amarela)
-                    HypeSquadOnlineHouse2: "<:HypeSquad_Brilliance:1199429640691925085>", //Hypesquad Brilliance (Laranja)
-                    HypeSquadOnlineHouse3: "<:HypeSquad_Balance:1199429555941806232>", //Hypesquad Balance (Verde)
-                    Nitro: "<:nitro:1193689230870839447>", //Nitro
+                    Partner: "<a:PartnerBadge:1219443410398609518>", //Partner (Dono de servidor parceiro)
+                    HypeSquadOnlineHouse1: "<:BraveryBadge:1219443465943912519>", //Hypesquad Bravery (Roxo)
+                    Hypesquad: "<:HypeEventsBadge:1219443521275301938>", //Hypesquad Events (Amarela)
+                    HypeSquadOnlineHouse2: "<:BrillianceBadge:1219443608709758996>", //Hypesquad Brilliance (Laranja)
+                    HypeSquadOnlineHouse3: "<:BalanceBadge:1219443654956154911>", //Hypesquad Balance (Verde)
+                    Nitro: "<a:9wumpusnitro:1219443717082185772>", //Nitro
                     guild_booster_lvl1: "<:lvl1:1192181337906487379>", // Boost 1
                     guild_booster_lvl2: "<:lvl2:1192181353056305288>", // Boost 2
                     guild_booster_lvl3: "<:lvl3:1192181362980040795>", // Boost 3
