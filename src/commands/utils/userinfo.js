@@ -32,15 +32,15 @@ module.exports = {
                     HypeSquadOnlineHouse2: "<:BrillianceBadge:1219443608709758996>", //Hypesquad Brilliance (Laranja)
                     HypeSquadOnlineHouse3: "<:BalanceBadge:1219443654956154911>", //Hypesquad Balance (Verde)
                     Nitro: "<a:9wumpusnitro:1219443717082185772>", //Nitro
-                    guild_booster_lvl1: "<:lvl1:1192181337906487379>", // Boost 1
-                    guild_booster_lvl2: "<:lvl2:1192181353056305288>", // Boost 2
-                    guild_booster_lvl3: "<:lvl3:1192181362980040795>", // Boost 3
-                    guild_booster_lvl4: "<:lvl4:1192181374166237264>", // Boost 4
-                    guild_booster_lvl5: "<:lvl5:1192181384530378762>", // Boost 5
-                    guild_booster_lvl6: "<:lvl6:1192181396278624386>", // Boost 6
-                    guild_booster_lvl7: "<:lvl7:1192181406445600910>", // Boost 7
-                    guild_booster_lvl8: "<:lvl8:1192181416402886656>", // Boost 8
-                    guild_booster_lvl9: "<:lvl9:1192181428025298965>", // Boost 9
+                    guild_booster_lvl1: "<:1192181337906487379:1219472384105648250>", // Boost 1
+                    guild_booster_lvl2: "<:1192181353056305288:1219472387125542933>", // Boost 2
+                    guild_booster_lvl3: "<:1192181362980040795:1219472390698962964>", // Boost 3
+                    guild_booster_lvl4: "<:1192181374166237264:1219472393861468261>", // Boost 4
+                    guild_booster_lvl5: "<:1192181384530378762:1219472396776374352>", // Boost 5
+                    guild_booster_lvl6: "<:1192181396278624386:1219472399242625064>", // Boost 6
+                    guild_booster_lvl7: "<:1192181406445600910:1219472403802099732>", // Boost 7
+                    guild_booster_lvl8: "<:1192181416402886656:1219472406905618514>", // Boost 8
+                    guild_booster_lvl9: "<:1192181428025298965:1219472409078534175>", // Boost 9
                 };
 
                 const userBadges = db.data.badges;
