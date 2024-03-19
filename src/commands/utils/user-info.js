@@ -4,12 +4,12 @@ const axios = require('axios').default;
 moment.locale("pt-BR");
 
 module.exports = {
-    name: "userinfo",
+    name: "user-info",
     description: "Informações de um Usuário",
     type: 1,
     options: [{
-        name: 'usuário',
-        description: '@',
+        name: 'membro',
+        description: 'selecione o membro.',
         type: 6,
         required: true
     }],
