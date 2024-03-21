@@ -26,8 +26,8 @@ module.exports = {
         "Bem-vindo ao Menu de Economia! Aqui você pode gerenciar sua economia e verificar o saldo do seu dinheiro.\n\n" +
         "Comandos Disponíveis:\n" +
         "• `/consultar` - Consulta o saldo do seu dinheiro.\n" +
-        "• `/comprar <item>` - Compra um item da loja.\n" +
-        "• `/vender <item>` - Vende um item da loja.\n" +
+        "• `/cobrar <usuário>` - Cobrar um usuário.\n" +
+        "• `/pagar <usuário>` - Pagar um usuário.\n" +
         "• `/trabalhar` - Trabalha para ganhar dinheiro.\n" +
         "• `/doar <usuário> <quantidade>` - Doa dinheiro para outro usuário.\n"
       )

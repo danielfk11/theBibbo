@@ -36,6 +36,6 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents([btn, btn2]);
 
-    interaction.reply({ embeds: [embed], components: [row] });
+    interaction.reply({ embeds: [embed], components: [row], ephemeral: true });
   }
 };

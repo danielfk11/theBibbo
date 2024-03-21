@@ -181,7 +181,7 @@ if (interaction.isStringSelectMenu()) {
         .setCustomId("alterandologs")
         .setLabel("Insira o ID para registrar o canal de logs")
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder(" ") // add texto/emoji
+        .setPlaceholder("✍️ Insira aqui o id do canal: ") 
         .setMinLength(1)
         .setRequired(true);
   
@@ -191,8 +191,6 @@ if (interaction.isStringSelectMenu()) {
   
     });
   }
-
-
 
 // ECONOMY SYSTEM
 if (selectedValue === 'ecocreateuser') {
@@ -220,7 +218,7 @@ if (selectedValue === 'ecocreateuser') {
     }
 
     if (row) {
-      interaction.reply({embeds: [register_error]});
+      interaction.reply({embeds: [register_error], ephemeral: true});
       return;
     }
 
@@ -233,7 +231,7 @@ if (selectedValue === 'ecocreateuser') {
       }
 
       console.log("Novo usuário criado no banco de dados. ID:", this.lastID);
-      interaction.reply({embeds: [register_success]});
+      interaction.reply({embeds: [register_success], ephemeral: true});
     });
   });
 }
@@ -241,6 +239,28 @@ if (selectedValue === 'ecocreateuser') {
 
 
 } // final do selectMenu
+
+
+// CONFIG CANAL LOGS SYSTEM
+if (interaction.customId === 'cfglogs') {
+  const cfg_channel_id = interaction.fields.getTextInputValue('alterandologs');
+
+  const guildId = interaction.guild.id;
+
+  const updateLogsQuery = `UPDATE servidores SET canal_logs_id = ? WHERE guild_id = ?`;
+
+  db.run(updateLogsQuery, [cfg_channel_id, guildId], function(err) {
+    if (err) {
+      interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
+      return;
+    }
+
+    interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
+  });
+}
+
+
+
 
 
 };

@@ -17,4 +17,8 @@ const permEmbed = new EmbedBuilder()
   .setDescription(`\`\`❌\`\` **Você não possui permissão para utilizar este comando.**`)
   .setColor(config.EmbedColor);
 
-module.exports = { embednaopode, embed_erro, sucesso_embed, permEmbed };
+const op_sucesso = new EmbedBuilder()
+  .setDescription(`\`\`✅\`\` **Sucesso, operação concluída.**`)
+  .setColor(config.EmbedColor);
+
+module.exports = { embednaopode, embed_erro, sucesso_embed, permEmbed, op_sucesso };

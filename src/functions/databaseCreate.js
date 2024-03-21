@@ -29,16 +29,25 @@ function createDatabase() {
             }
         });
 
-        db.run(`CREATE TABLE IF NOT EXISTS economy (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id TEXT,
-            guild_id TEXT,
-            money INTEGER
-        )`, function(err) {
+        db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='economy'", (err, row) => {
             if (err) {
-                console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
-            } else {
-                console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "ECONOMY" criada com sucesso`)}`);
+                console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao verificar tabela: ${err.message}`)}`);
+                return;
+            }
+
+            if (!row) {
+                db.run(`CREATE TABLE economy (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id TEXT,
+                    guild_id TEXT,
+                    money INTEGER
+                )`, function(err) {
+                    if (err) {
+                        console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
+                    } else {
+                        console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "ECONOMY" criada com sucesso`)}`);
+                    }
+                });
             }
         });
     });
