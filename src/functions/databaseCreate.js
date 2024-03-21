@@ -13,23 +13,33 @@ function createDatabase() {
                 return;
             }
 
-            if (row) {
-                console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.cyan(`Tabela "SERVIDORES" já existe`)}`);
-                return;
+            if (!row) {
+                db.run(`CREATE TABLE servidores (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    guild_id TEXT,
+                    dono_id TEXT,
+                    canal_logs_id TEXT
+                )`, function(err) {
+                    if (err) {
+                        console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
+                    } else {
+                        console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "SERVIDORES" criada com sucesso`)}`);
+                    }
+                });
             }
+        });
 
-            db.run(`CREATE TABLE servidores (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                guild_id TEXT,
-                dono_id TEXT,
-                canal_logs_id TEXT
-            )`, function(err) {
-                if (err) {
-                    console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
-                } else {
-                    console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "SERVIDORES" criada com sucesso`)}`);
-                }
-            });
+        db.run(`CREATE TABLE IF NOT EXISTS economy (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id TEXT,
+            guild_id TEXT,
+            money INTEGER
+        )`, function(err) {
+            if (err) {
+                console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
+            } else {
+                console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "ECONOMY" criada com sucesso`)}`);
+            }
         });
     });
 }
