@@ -39,8 +39,8 @@ module.exports = {
 getLogsChannelId(guildId, async (err, channelId) => {
   if (err) {
     console.error("Erro ao obter o ID do canal de logs:", err.message);
-    return interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
   }
+
   let embed = new EmbedBuilder()
     .setAuthor({ name: `${config.NomeDoServidor} | Membro Banido`, iconURL: config.LogoDoServidor })
     .setDescription(`Um novo membro foi banido por ${interaction.user}, informações adicionais:`)
@@ -60,10 +60,7 @@ getLogsChannelId(guildId, async (err, channelId) => {
   }
 });
 
-// // Banir o usuário
-// user.ban(member, { reason: motivo })
-//   .then(() => console.log("Usuário banido com sucesso."))
-//   .catch(error => console.error("Erro ao banir o usuário:", error))
+user.ban(member, { reason: motivo }).catch(error => console.error("Erro ao banir o usuário:", error))
 
   }
 }

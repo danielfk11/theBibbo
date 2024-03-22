@@ -7,7 +7,8 @@
     "fs": "^0.0.1-security",
     "moment": "^2.30.1",
     "path": "^0.12.7",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "ytdl-core": "^4.11.5"
   },
   "name": "thebibbo",
   "description": "Public bot for discord, make with discord.js v14",

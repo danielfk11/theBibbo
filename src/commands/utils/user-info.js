@@ -17,8 +17,6 @@ module.exports = {
     run: async (client, interaction, args) => { 
 
         const membro = interaction.options.getUser("usuário");
-        const member = interaction.guild.members.cache.get(membro.id) || interaction.member;
-
         try {
             await axios.get(`https://api.meshapis.cc/user/${membro.id}`).then(function (db) {
 
@@ -56,8 +54,6 @@ module.exports = {
                 );
           
                 const row = new ActionRowBuilder().addComponents(button);
-           
-                let avatar = membro.displayAvatarURL({ dynamic: true, format: "png", size: 4096 })
 
                 let embed = new EmbedBuilder()
                     .setColor("#2a2c31")

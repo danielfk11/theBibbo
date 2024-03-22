@@ -1,6 +1,7 @@
 const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,PermissionFlagsBits, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds")
+const { getLogsChannelId } = require("../../functions/logChannel")
 
 module.exports = {
   name: "kick",
@@ -35,6 +36,12 @@ module.exports = {
       return;
     }
 
+    getLogsChannelId(guildId, async (err, channelId) => {
+      if (err) {
+        console.error("Erro ao obter o ID do canal de logs:", err.message);
+      }
+    
+
     let embed = new EmbedBuilder()
       .setAuthor({name: `${config.NomeDoServidor} | Membro Kickado`, iconURL: config.LogoDoServidor})
       .setDescription(`Um novo membro foi kickado por ${interaction.user}, informações adicionais:`)
@@ -46,7 +53,14 @@ module.exports = {
       )
       .setColor(config.EmbedColor);
 
-    interaction.reply({ embeds: [embed]});
-   user.kick(member, motivo)
+      if (channelId) {
+        const logsChannel = interaction.guild.channels.cache.get(channelId);
+        await logsChannel.send({ embeds: [embed] }).then(interaction.reply({embeds: [embeds.op_sucesso], ephemeral: true}))
+      } else {
+        await interaction.reply({ embeds: [embed] });
+      }
+    });
+
+    user.kick(member, motivo)
   }
 };
