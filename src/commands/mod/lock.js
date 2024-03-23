@@ -25,13 +25,17 @@ module.exports = {
         const canal = interaction.options.getChannel("canal")
 
         canal.permissionOverwrites.edit(interaction.guild.id, { SendMessages: false }).then( () => {
-            interaction.reply({ content: `O canal de texto ${canal} foi bloqueado por ${interaction.user} para nenhum membro do servidor enviar mensagem.` })
+          interaction.reply({ content: embeds.sucesso_embed, ephemeral: true})
 
-            if (canal.id !== interaction.channel.id) return canal.send({ content: `Este canal de texto foi bloqueado por ${interaction.user} para nenhum membro do servidor enviar mensagem.` })
-
-        }).catch(e => {
-            interaction.reply({ content: `❌ Ops, algo deu errado.` })
-        })
+          let embed = new EmbedBuilder()
+          .setDescription(`\`\`🔒\`\` *Este canal de texto (<#${canal.id}>) foi bloqueado por ${interaction.user}*`)
+          .setColor(config.EmbedColor);
+  
+          canal.send({ embeds: [embed] })
+  
+          }).catch(e => {
+              interaction.reply({ embeds: embeds.embed_erro, ephemeral: true })
+          })
     }
     
   }

@@ -2,6 +2,7 @@ const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType, Perm
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds");
 const { parseTimeToMs } = require('../../functions/parseTimeToMs');
+const { getLogsChannelId } = require("../../functions/logChannel")
 
 module.exports = {
     name: "mutar",
@@ -34,10 +35,11 @@ module.exports = {
             await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
             return;
         }
-    
+        
+        const guildId = interaction.guild.id
         const memberId = interaction.options.getUser('membro').id;
         const member = await interaction.guild.members.fetch(memberId);
-        const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.'; // Corrigido para motivo
+        const motivo = interaction.options.getString('motivo') || 'Sem motivo declarado.';
         const tempoString = interaction.options.getString('tempo');
 
         let tempoMs = 0;
@@ -45,9 +47,12 @@ module.exports = {
             tempoMs = parseTimeToMs(tempoString);
         }
 
-        member.timeout(tempoMs, motivo);
-
-        let embed = new EmbedBuilder()
+        getLogsChannelId(guildId, async (err, channelId) => {
+            if (err) {
+              console.error("Erro ao obter o ID do canal de logs:", err.message);
+            }
+          
+            let embed = new EmbedBuilder()
             .setAuthor({name: `${config.NomeDoServidor} | Membro castigado`, iconURL: config.LogoDoServidor})
             .setDescription(`Um novo membro foi castigado por ${interaction.user}, informações adicionais:`)
             .addFields(
@@ -57,6 +62,16 @@ module.exports = {
                 {name: `Castigado por:`, value: `${tempoString}`, inline: false},
             )
             .setColor(config.EmbedColor);
-        interaction.reply({embeds: [embed]});
+          
+            if (channelId) {
+              const logsChannel = interaction.guild.channels.cache.get(channelId);
+              await logsChannel.send({ embeds: [embed] }).then(interaction.reply({embeds: [embeds.op_sucesso], ephemeral: true}))
+            } else {
+              await interaction.reply({ embeds: [embed] });
+            }
+          });
+
+          member.timeout(tempoMs, { reason: motivo }).catch(error => console.error("Erro ao mutar o usuário:", error))
+
     }
 };

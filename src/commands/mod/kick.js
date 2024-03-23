@@ -41,15 +41,14 @@ module.exports = {
         console.error("Erro ao obter o ID do canal de logs:", err.message);
       }
     
-
     let embed = new EmbedBuilder()
-      .setAuthor({name: `${config.NomeDoServidor} | Membro Kickado`, iconURL: config.LogoDoServidor})
-      .setDescription(`Um novo membro foi kickado por ${interaction.user}, informações adicionais:`)
+      .setAuthor({name: `${config.NomeDoServidor} | Membro Expulso`, iconURL: config.LogoDoServidor})
+      .setDescription(`Um novo membro foi expulso por ${interaction.user}, informações adicionais:`)
       .addFields(
-       {name: `Membro Kickado:`, value: `${member}`, inline: false},
+       {name: `Membro Expulso:`, value: `${member}`, inline: false},
        {name: `Motivo:`, value: `${motivo}`, inline: false},
        {name: `Staff:`, value: `<@${interaction.user.id}>`, inline: false},
-       {name: `Kickado faz:`, value: `<t:${timestamp}:R>`, inline: false},
+       {name: `Expulso faz:`, value: `<t:${timestamp}:R>`, inline: false},
       )
       .setColor(config.EmbedColor);
 
@@ -60,7 +59,6 @@ module.exports = {
         await interaction.reply({ embeds: [embed] });
       }
     });
-
-    user.kick(member, motivo)
+    user.kick(user, { reason: motivo }).catch(error => console.error("Erro ao expulsar o usuário:", error))
   }
 };

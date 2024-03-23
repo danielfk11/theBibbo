@@ -17,14 +17,14 @@ module.exports = {
             name: 'canal', 
             description: 'Escolha o canal para limpar.',
             type: ApplicationCommandOptionType.Channel,
-            required: false
+            required: true
         }
     ],
 
     run: async (client, interaction) => {
         const member = interaction.member
         const quantidade = interaction.options.getNumber('quantidade')
-        const canal = interaction.options.getChannel('canal') || interaction.channel
+        const canal = interaction.options.getChannel('canal')
   
         if (!member.permissions.has(PermissionFlagsBits.ManageChannels)) {
         await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
@@ -34,7 +34,12 @@ module.exports = {
      const deletando = await canal.bulkDelete(quantidade)
      const qntd = deletando.size
 
-     interaction.reply({content: `O canal teve \`\`${qntd}\`\` mensagens deletas por ${interaction.user}.`})
+      let embed = new EmbedBuilder()
+      .setDescription(`\`\`🗑️\`\` *${interaction.user} deletou ${qntd} mensagens nesse canal de texto.*`)
+      .setColor(config.EmbedColor);
+
+     interaction.reply({ embeds: [embeds.op_sucesso], ephemeral: true })
+     canal.send({ embeds: [embed] }).catch(error => console.error("Erro ao limpar mensagens:", error))
 
     }
 }

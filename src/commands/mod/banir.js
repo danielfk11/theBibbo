@@ -60,7 +60,7 @@ getLogsChannelId(guildId, async (err, channelId) => {
   }
 });
 
-user.ban(member, { reason: motivo }).catch(error => console.error("Erro ao banir o usuário:", error))
+interaction.guild.members.ban(member, { reason: motivo }).catch(error => console.error("Erro ao banir o usuário:", error))
 
   }
 }
