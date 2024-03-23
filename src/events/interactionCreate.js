@@ -197,21 +197,19 @@ if (selectedValue === 'ecocreateuser') {
   interaction.message.edit()
 
   let register_error = new EmbedBuilder()
-  .setDescription(`\`\`❌\`\` **Você já está registrado nesta guilda.**`)
+  .setDescription(`\`\`❌\`\` **Você já está registrado.**`)
   .setColor(config.EmbedColor);
 
   let register_success = new EmbedBuilder()
   .setDescription(`\`\`✅\`\` **Novo usuário criado com sucesso no banco de dados.**`)
   .setColor(config.EmbedColor);
 
-
   const userId = interaction.user.id;
-  const guildId = interaction.guild.id;
   const money = '0'
 
-  const userExistQuery = `SELECT * FROM economy WHERE user_id = ? AND guild_id = ?`;
+  const userExistQuery = `SELECT * FROM economy WHERE user_id = ?`;
 
-  db.get(userExistQuery, [userId, guildId], (err, row) => {
+  db.get(userExistQuery, [userId], (err, row) => {
     if (err) {
       interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
       return;
@@ -222,9 +220,9 @@ if (selectedValue === 'ecocreateuser') {
       return;
     }
 
-    const insertUserQuery = `INSERT INTO economy (user_id, guild_id, money) VALUES (?, ?, ?)`;
+    const insertUserQuery = `INSERT INTO economy (user_id,  money) VALUES (?, ?)`;
 
-    db.run(insertUserQuery, [userId, guildId, money], function(err) {
+    db.run(insertUserQuery, [userId, money], function(err) {
       if (err) {
         interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
         return;

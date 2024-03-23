@@ -39,8 +39,8 @@ function createDatabase() {
                 db.run(`CREATE TABLE economy (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id TEXT,
-                    guild_id TEXT,
-                    money INTEGER
+                    money INTEGER,
+                    last_claim INTEGER
                 )`, function(err) {
                     if (err) {
                         console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);

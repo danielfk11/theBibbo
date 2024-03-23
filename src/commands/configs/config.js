@@ -22,6 +22,7 @@ module.exports = {
 
     const selectMenuOptions = [
       { label: 'Configurar Canal de Logs', value: 'configurarlogs', emoji: '📜' },
+      { label: 'Configurar Sistema de Tickets', value: 'configtickets', emoji: '📜' },
       { label: 'Criar Banco de Dados', value: 'createdb', emoji: '🗂️' },
     ];
 
@@ -32,6 +33,6 @@ module.exports = {
 
     const row = new ActionRowBuilder().addComponents(selectMenu);
 
-    interaction.reply({ embeds: [embed], components: [row] });
+    interaction.reply({ embeds: [embed], components: [row], ephemeral: true });
   }
 };

@@ -1,47 +1,37 @@
-const { EmbedBuilder, ActionRowBuilder, ButtonBuilder,PermissionFlagsBits, ApplicationCommandType, ButtonStyle, ApplicationCommandOptionType } = require("discord.js");
+const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
-const path = require("path")
-const embeds = require("../../utils/embeds")
-const sqlite3 = require("sqlite3").verbose();
+const embeds = require("../../utils/embeds");
+const { getBalance } = require("../../functions/economy");
 
 module.exports = {
     name: "consultar",
-    description: "Consultar saldo money",
+    description: "Consultar saldo de bibboCoins",
     type: ApplicationCommandType.ChatInput,
-        
-        run: async (client, interaction) => {
-            const dbPath = path.resolve(__dirname, "..", "..","..", "database", "database.db");
-            const db = new sqlite3.Database(dbPath);
-      
-            const userId = interaction.user.id;
-    
-            const userExistQuery = `SELECT * FROM economy WHERE user_id = ?`;
-      
-            db.get(userExistQuery, [userId], (err, userRow) => {
-                if (err) {
-                    console.error("Erro ao consultar o banco de dados:", err.message);
-                    interaction.reply("Ocorreu um erro ao consultar o saldo.");
-                    return;
-                }
-    
-                if (!userRow) {
-                    interaction.reply("Você ainda não está registrado na economia.");
-                    return;
-                }
-    
-                const saldoQuery = `SELECT money FROM economy WHERE user_id = ?`;
-    
-                db.get(saldoQuery, [userId], (err, saldoRow) => {
-                    if (err) {
-                        console.error("Erro ao consultar o saldo no banco de dados:", err.message);
-                        interaction.reply("Ocorreu um erro ao consultar o saldo.");
-                        return;
-                    }
-    
-                    const saldo = saldoRow.money;
-    
-                    interaction.reply(`Seu saldo é de: ${saldo} money`);
-                });
-            });
-        },
-    };
+    options: [
+        {
+            name: 'membro',
+            description: 'Insira o id do membro para consultar o saldo (deixe em branco para consultar o seu próprio saldo)',
+            type: ApplicationCommandOptionType.User,
+            required: false
+        }
+    ],
+
+    run: async (client, interaction) => {
+        const targetId = interaction.options.getUser('membro')?.id || interaction.user.id; 
+        const guildId = interaction.guild.id;
+
+        try {
+            const balance = await getBalance(targetId);
+            const balanceDisplay = balance.toFixed(2); 
+
+            let embed = new EmbedBuilder()
+                .setDescription(`\`\`💰\`\` **Saldo de bibboCoins de <@${targetId}> é: ${balanceDisplay}**`)
+                .setColor(config.EmbedColor);
+
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+        } catch (error) {
+            console.error('Erro ao consultar saldo:', error);
+            await interaction.reply({ embeds: [embeds.embed_erro], ephemeral: true });
+        }
+    }
+};
