@@ -25,7 +25,7 @@ module.exports = {
         const canal = interaction.options.getChannel("canal")
 
         canal.permissionOverwrites.edit(interaction.guild.id, { SendMessages: true }).then( () => {
-        interaction.reply({ content: embeds.sucesso_embed, ephemeral: true})
+        interaction.reply({ embeds: [embeds.sucesso_embed], ephemeral: true})
 
         let embed = new EmbedBuilder()
         .setDescription(`\`\`🔓\`\` *Este canal de texto (<#${canal.id}>) foi desbloqueado por ${interaction.user}*`)
@@ -34,7 +34,7 @@ module.exports = {
         canal.send({ embeds: [embed] })
 
         }).catch(e => {
-            interaction.reply({ embeds: embeds.embed_erro, ephemeral: true })
+            interaction.reply({ embeds: [embeds.embed_erro], ephemeral: true })
         })
     }
     

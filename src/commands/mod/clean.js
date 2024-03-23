@@ -39,7 +39,12 @@ module.exports = {
       .setColor(config.EmbedColor);
 
      interaction.reply({ embeds: [embeds.op_sucesso], ephemeral: true })
-     canal.send({ embeds: [embed] }).catch(error => console.error("Erro ao limpar mensagens:", error))
+     
+     canal.send({ embeds: [embed] }).then(msg => {
+        setTimeout(() => {
+            msg.delete()
+        }, 60_000);
+    });
 
     }
 }
