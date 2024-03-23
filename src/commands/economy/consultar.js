@@ -25,7 +25,7 @@ module.exports = {
             const balanceDisplay = balance.toFixed(2); 
 
             let embed = new EmbedBuilder()
-                .setDescription(`\`\`💰\`\` **Saldo de bibboCoins de <@${targetId}> é: ${balanceDisplay}**`)
+                .setDescription(`\`\`💰\`\` *Saldo de bibboCoins de <@${targetId}> é: ${balanceDisplay}*`)
                 .setColor(config.EmbedColor);
 
             await interaction.reply({ embeds: [embed], ephemeral: true });

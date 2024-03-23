@@ -37,15 +37,15 @@ module.exports = {
             }
 
             let embed = new EmbedBuilder()
-                .setDescription(`\`\`✅\`\` **Sucesso, <@${senderId}> doou ${amountDisplay} bibboCoins para <@${receiverId}> com sucesso.**`)
+                .setDescription(`\`\`✅\`\` *Sucesso, <@${senderId}> doou ${amountDisplay} bibboCoins para <@${receiverId}> com sucesso.*`)
                 .setColor(config.EmbedColor);
 
             const qntInv = new EmbedBuilder()
-                .setDescription(`\`\`❌\`\` **Quantidade inválida de bibboCoins.**`)
+                .setDescription(`\`\`❌\`\` *Quantidade inválida de bibboCoins.*`)
                 .setColor(config.EmbedColor);
 
             const semQnt = new EmbedBuilder()
-                .setDescription(`\`\`❌\`\` **Você não possui bibboCoins suficientes.**`)
+                .setDescription(`\`\`❌\`\` *Você não possui bibboCoins suficientes.*`)
                 .setColor(config.EmbedColor);
 
             if (amount <= 0) {
@@ -55,8 +55,6 @@ module.exports = {
 
             try {
                 const senderBalance = await getBalance(senderId);
-                console.log(`Saldo do remetente: ${senderBalance}`);
-                console.log(`Quantidade a ser enviada: ${amount}`);
 
                 if (senderBalance < amount) {
                     await interaction.reply({ embeds: [semQnt], ephemeral: true });

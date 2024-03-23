@@ -29,7 +29,7 @@ module.exports = {
                 let timeString = `${hours}h ${minutes}m ${seconds}s`;
 
                 let cooldownEmbed = new EmbedBuilder()
-                    .setDescription(`\`\`⏳\`\` **Você já trabalhou recentemente! Tente novamente em ${timeString}.**`)
+                    .setDescription(`\`\`⏳\`\` *Você já trabalhou recentemente! Tente novamente em ${timeString}.*`)
                     .setColor(config.EmbedColor);
 
                 await interaction.reply({ embeds: [cooldownEmbed], ephemeral: true });
@@ -42,14 +42,14 @@ module.exports = {
             await updateLastClaim(userId);
 
             let embed = new EmbedBuilder()
-                .setDescription(`\`\`💼\`\` **Você trabalhou e ganhou ${earnings / 100} bibboCoins!**`)
+                .setDescription(`\`\`💼\`\` *Você trabalhou e ganhou ${earnings / 100} bibboCoins!*`)
                 .setColor(config.EmbedColor);
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.error('Erro ao processar comando "trabalhar":', error);
             let errorEmbed = new EmbedBuilder()
-                .setDescription(`\`\`❌\`\` **Erro ao processar comando "trabalhar".**`)
+                .setDescription(`\`\`❌\`\` *Erro ao processar comando "trabalhar".*`)
                 .setColor(config.EmbedColor);
 
             await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
