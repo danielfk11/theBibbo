@@ -122,7 +122,7 @@ if (interaction.isStringSelectMenu()) {
       if (row) {
         let embed = new EmbedBuilder()
           .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
-          .setDescription(`\`\`❌\`\` **Erro, servidor já está no banco de dados.**`)
+          .setDescription(`\`\`❌\`\` *Erro, servidor já está no banco de dados.*`)
           .setColor(config.EmbedColor);
 
         interaction.reply({embeds: [embed], ephemeral: true});
@@ -136,7 +136,7 @@ if (interaction.isStringSelectMenu()) {
 
           let embed = new EmbedBuilder()
             .setAuthor({name: `${config.NomeDoServidor} | Painel do Bot`, iconURL: config.LogoDoServidor})
-            .setDescription(`\`\`✅\`\` **Sucesso, servidor inserido no banco de dados.**`)
+            .setDescription(`\`\`✅\`\` *Sucesso, servidor inserido no banco de dados.*`)
             .setColor(config.EmbedColor);
 
           interaction.reply({embeds: [embed], ephemeral: true});
@@ -154,7 +154,7 @@ if (interaction.isStringSelectMenu()) {
     }
 
     let register_error = new EmbedBuilder()
-    .setDescription(`\`\`❌\`\` **O ID do servidor não está registrado na tabela de servidores.**`)
+    .setDescription(`\`\`❌\`\` *O ID do servidor não está registrado na tabela de servidores.*`)
     .setColor(config.EmbedColor);
 
     const guildId = interaction.guild.id;
@@ -197,11 +197,11 @@ if (selectedValue === 'ecocreateuser') {
   interaction.message.edit()
 
   let register_error = new EmbedBuilder()
-  .setDescription(`\`\`❌\`\` **Você já está registrado.**`)
+  .setDescription(`\`\`❌\`\` *Você já está registrado.*`)
   .setColor(config.EmbedColor);
 
   let register_success = new EmbedBuilder()
-  .setDescription(`\`\`✅\`\` **Novo usuário criado com sucesso no banco de dados.**`)
+  .setDescription(`\`\`✅\`\` *Novo usuário criado com sucesso no banco de dados.*`)
   .setColor(config.EmbedColor);
 
   const userId = interaction.user.id;
