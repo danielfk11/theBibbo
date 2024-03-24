@@ -1,10 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds");
-const { addCoins, getBalance, updateLastClaim, getLastClaim } = require("../../functions/economy");
-
-
-//EDITAR DANNY(NAO TESTADO)
+const { addCoins, getBalance, getLastClaim, updateLastClaim } = require("../../functions/economy");
 
 module.exports = {
     name: "trabalhar",
@@ -13,46 +10,38 @@ module.exports = {
 
     run: async (client, interaction) => {
         const userId = interaction.user.id;
-        const guildId = interaction.guild.id;
-
+        
         try {
             const balance = await getBalance(userId);
             const currentTime = Date.now();
-
-            const lastClaim = await getLastClaim(userId); 
-            if (lastClaim && (currentTime - lastClaim < 86400000)) {
-                const timeLeft = new Date(86400000 - (currentTime - lastClaim));
-                let hours = timeLeft.getUTCHours();
-                let minutes = timeLeft.getUTCMinutes();
-                let seconds = timeLeft.getUTCSeconds();
-
-                let timeString = `${hours}h ${minutes}m ${seconds}s`;
-
-                let cooldownEmbed = new EmbedBuilder()
-                    .setDescription(`\`\`⏳\`\` *Você já trabalhou recentemente! Tente novamente em ${timeString}.*`)
+    
+            const lastClaim = await getLastClaim(userId);
+    
+            if (lastClaim && currentTime - lastClaim < 24 * 60 * 60 * 1000) {
+                const remainingTime = 24 * 60 * 60 * 1000 - (currentTime - lastClaim);
+                const remainingHours = Math.floor(remainingTime / (60 * 60 * 1000));
+                const remainingMinutes = Math.floor((remainingTime % (60 * 60 * 1000)) / (60 * 1000));
+                
+                const errorEmbed = new EmbedBuilder()
+                    .setDescription(`\`\`⏳\`\` *Você só pode executar este comando novamente em ${remainingHours} horas e ${remainingMinutes} minutos.*`)
                     .setColor(config.EmbedColor);
-
-                await interaction.reply({ embeds: [cooldownEmbed], ephemeral: true });
-                return;
+    
+                return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
             }
-
-            const earnings = 100;
-
+    
+            const earnings = Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+    
             await addCoins(userId, earnings);
-            await updateLastClaim(userId);
-
-            let embed = new EmbedBuilder()
-                .setDescription(`\`\`💼\`\` *Você trabalhou e ganhou ${earnings / 100} bibboCoins!*`)
+            await updateLastClaim(userId, currentTime);
+    
+            const embed = new EmbedBuilder()
+                .setDescription(`\`\`💼\`\` *Você trabalhou e ganhou ${earnings} bibboCoins!*`)
                 .setColor(config.EmbedColor);
-
+    
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.error('Erro ao processar comando "trabalhar":', error);
-            let errorEmbed = new EmbedBuilder()
-                .setDescription(`\`\`❌\`\` *Erro ao processar comando "trabalhar".*`)
-                .setColor(config.EmbedColor);
-
-            await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+            await interaction.reply({ embeds: [embeds.embed_erro], ephemeral: true });
         }
     }
 };

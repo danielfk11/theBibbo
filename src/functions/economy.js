@@ -65,7 +65,7 @@ async function getLastClaim(userId) {
     return new Promise((resolve, reject) => {
         db.get(
             `SELECT last_claim FROM economy WHERE user_id = ?`,
-            [userId, guildId],
+            [userId],
             (err, row) => {
                 if (err) {
                     reject(err);
@@ -77,10 +77,37 @@ async function getLastClaim(userId) {
     });
 }
 
+/**
+ * Atualiza o último momento em que um usuário utilizou o comando "trabalhar".
+ * @param {string} userId - ID do usuário
+ * @param {number} currentTime - Tempo atual
+ * @returns {Promise<boolean>}
+ */
+async function updateLastClaim(userId, currentTime) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE economy SET last_claim = ? WHERE user_id = ?`,
+            [currentTime, userId],
+            function (err) {
+                if (err) {
+                    console.error('Erro ao atualizar last_claim:', err);
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            }
+        );
+    });
+}
+
+
+
+
 
 module.exports = {
     addCoins,
     removeCoins,
     getBalance,
-    getLastClaim
+    getLastClaim,
+    updateLastClaim
 };

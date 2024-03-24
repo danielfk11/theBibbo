@@ -50,6 +50,28 @@ function createDatabase() {
                 });
             }
         });
+
+        db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='xp'", (err, row) => {
+            if (err) {
+                console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao verificar tabela: ${err.message}`)}`);
+                return;
+            }
+
+            if (!row) {
+                db.run(`CREATE TABLE xp (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id TEXT,
+                    last_message TEXT,
+                    quantidade_mensagens INTEGER
+                )`, function(err) {
+                    if (err) {
+                        console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
+                    } else {
+                        console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "XP" criada com sucesso`)}`);
+                    }
+                });
+            }
+        });
     });
 }
 
