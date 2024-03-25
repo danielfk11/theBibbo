@@ -61,8 +61,9 @@ function createDatabase() {
                 db.run(`CREATE TABLE xp (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     user_id TEXT,
-                    last_message TEXT,
-                    quantidade_mensagens INTEGER
+                    last TEXT,
+                    messages INTEGER,
+                    total_xp INTEGER
                 )`, function(err) {
                     if (err) {
                         console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);

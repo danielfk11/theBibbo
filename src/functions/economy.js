@@ -20,6 +20,22 @@ async function addCoins(userId, amount) {
     });
 }
 
+async function addXp(userId, amount) {
+    return new Promise((resolve, reject) => {
+        db.run(
+            `UPDATE xp SET total_xp = COALESCE((SELECT total_xp FROM xp WHERE user_id = ?), 0) + ? WHERE user_id = ?`,
+            [userId, amount, userId],
+            function (err) {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(true);
+            }
+        );
+    });
+}
+
 async function removeCoins(userId, amount) {
     return new Promise((resolve, reject) => {
         db.run(
@@ -109,5 +125,6 @@ module.exports = {
     removeCoins,
     getBalance,
     getLastClaim,
-    updateLastClaim
+    updateLastClaim,
+    addXp
 };
