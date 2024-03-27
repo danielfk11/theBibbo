@@ -16,7 +16,8 @@ module.exports = {
     permissions: {},
     run: async (client, interaction, args) => { 
 
-        const membro = interaction.options.getUser("usuário");
+        const membro = interaction.options.getUser("membro");
+
         try {
             await axios.get(`https://api.meshapis.cc/user/${membro.id}`).then(function (db) {
 
