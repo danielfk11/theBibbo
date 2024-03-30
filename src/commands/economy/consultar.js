@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds");
-const { getBalance, userExists } = require("../../functions/economy"); // Supondo que você tenha uma função userExists
+const { getBalance, userExists } = require("../../functions/economy");
 
 module.exports = {
     name: "consultar",
