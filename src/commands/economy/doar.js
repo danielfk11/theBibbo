@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds");
-const { addCoins, removeCoins, getBalance } = require("../../functions/economy");
+const { addCoins, removeCoins, getBalance, userExists } = require("../../functions/economy");
 const { getLogsChannelId } = require("../../functions/logChannel");
 
 module.exports = {
@@ -48,6 +48,19 @@ module.exports = {
                 .setDescription(`\`\`❌\`\` *Você não possui bibboCoins suficientes.*`)
                 .setColor(config.EmbedColor);
 
+            const userNotInDB = new EmbedBuilder()
+                .setDescription(`\`\`❌\`\` *O usuário <@${receiverId}> não está registrado no banco de dados.*`)
+                .setColor(config.EmbedColor);
+
+            const cantTransferToSelf = new EmbedBuilder()
+                .setDescription(`\`\`❌\`\` *Você não pode transferir bibboCoins para si mesmo.*`)
+                .setColor(config.EmbedColor);
+
+            if (senderId === receiverId) {
+                await interaction.reply({ embeds: [cantTransferToSelf], ephemeral: true });
+                return;
+            }
+
             if (amount <= 0) {
                 await interaction.reply({ embeds: [qntInv], ephemeral: true });
                 return;
@@ -58,6 +71,13 @@ module.exports = {
 
                 if (senderBalance < amount) {
                     await interaction.reply({ embeds: [semQnt], ephemeral: true });
+                    return;
+                }
+
+                const receiverExists = await userExists(receiverId);
+
+                if (!receiverExists) {
+                    await interaction.reply({ embeds: [userNotInDB], ephemeral: true });
                     return;
                 }
 

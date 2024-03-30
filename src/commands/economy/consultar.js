@@ -1,7 +1,7 @@
 const { EmbedBuilder, ApplicationCommandType, ApplicationCommandOptionType } = require("discord.js");
 const config = require("../../../config.json");
 const embeds = require("../../utils/embeds");
-const { getBalance } = require("../../functions/economy");
+const { getBalance, userExists } = require("../../functions/economy"); // Supondo que você tenha uma função userExists
 
 module.exports = {
     name: "consultar",
@@ -18,10 +18,21 @@ module.exports = {
 
     run: async (client, interaction) => {
         const targetId = interaction.options.getUser('membro')?.id || interaction.user.id; 
-        const guildId = interaction.guild.id;
 
         try {
+            const exists = await userExists(targetId);
+
+            if (!exists) {
+                let embed = new EmbedBuilder()
+                    .setDescription(`\`\`❌\`\` *O membro <@${targetId}> não existe no banco de dados.*`)
+                    .setColor(config.EmbedColor);
+
+                await interaction.reply({ embeds: [embed], ephemeral: true });
+                return;
+            }
+
             const balance = await getBalance(targetId);
+
             const balanceDisplay = balance.toFixed(2); 
 
             let embed = new EmbedBuilder()
@@ -29,6 +40,7 @@ module.exports = {
                 .setColor(config.EmbedColor);
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
+
         } catch (error) {
             console.error('Erro ao consultar saldo:', error);
             await interaction.reply({ embeds: [embeds.embed_erro], ephemeral: true });

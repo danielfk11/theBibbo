@@ -14,7 +14,9 @@ const {
   ActionRowBuilder,
   ButtonStyle,
   ButtonBuilder,
+  SelectMenuBuilder
 } = require("discord.js");
+const embed = require("../utils/embeds")
 const path = require("path");
 const dbPath = path.resolve(__dirname, "..","..", "database", "database.db");
 const db = new sqlite3.Database(dbPath)
@@ -228,11 +230,41 @@ if (selectedValue === 'ecocreateuser') {
         return;
       }
 
-      console.log("Novo usuário criado no banco de dados. ID:", this.lastID);
       interaction.reply({embeds: [register_success], ephemeral: true});
     });
   });
 }
+
+
+if(selectedValue === 'ecogerenusers') {
+  interaction.message.edit()
+  const member = interaction.member;
+  const allowedIDs = [config.idddany, config.idsiix]; 
+  
+  if (!allowedIDs.includes(member.id)) {
+    await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
+    return;
+  }
+
+  const selectMenuOptions = [
+    { label: 'Adicionar bibboCoins', value: 'addbibboc', emoji: '👍', description: 'Adicione bibboCoins à conta do usuário.' },
+    { label: 'Remover bibboCoins', value: 'rembibboc', emoji: '👎', description: 'Remova bibboCoins da conta do usuário.' },
+    { label: 'Setar bibboCoins', value: 'setbibboc', emoji: '✅', description: 'Configure a quantidade de bibboCoins na conta do usuário.' },
+    { label: 'Adicionar Usuario', value: 'adduserb', emoji: '👤', description: 'Adicione um novo usuário ao banco de dados.' },
+    { label: 'Excluir Usuario', value: 'remuserb', emoji: '🗑️', description: 'Exclua o usuário do banco de dados.' },
+  ];
+  
+  const selectMenu = new SelectMenuBuilder()
+      .setCustomId('selectmenu')
+      .setPlaceholder('Selecione uma opção')
+      .addOptions(selectMenuOptions);
+
+    const row = new ActionRowBuilder().addComponents(selectMenu);
+
+    interaction.reply({components: [row], ephemeral: true });
+}
+
+
 
 
 

@@ -48,7 +48,7 @@ module.exports = {
 
     interaction.reply({ embeds: [embed], components: [row] });
 
-
+    
   }
 };
 
