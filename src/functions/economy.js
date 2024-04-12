@@ -10,6 +10,7 @@ const db = new sqlite3.Database(dbPath);
  * @param {Array} params - Parâmetros da query
  * @returns {Promise<any>} - Resultado da operação
  */
+
 function runQuery(query, params) {
     return new Promise((resolve, reject) => {
         db.run(query, params, function (err) {
@@ -22,9 +23,24 @@ function runQuery(query, params) {
     });
 }
 
+async function addXp(userId, amount) {
+    const query = `UPDATE xp SET total_xp = COALESCE((SELECT total_xp FROM xp WHERE user_id = ?), 0) + ? WHERE user_id = ?`;
+    return runQuery(query, [userId, amount, userId]);
+}
+
+async function removeCoins(userId, amount) {
+    const query = `UPDATE economy SET money = COALESCE((SELECT money FROM economy WHERE user_id = ?), 0) - ? WHERE user_id = ?`;
+    return runQuery(query, [userId, amount, userId]);
+}
+
 async function addCoins(userId, amount) {
     const query = `UPDATE economy SET money = COALESCE((SELECT money FROM economy WHERE user_id = ?), 0) + ? WHERE user_id = ?`;
     return runQuery(query, [userId, amount, userId]);
+}
+
+async function updateLastClaim(userId, currentTime) {
+    const query = `UPDATE economy SET last_claim = ? WHERE user_id = ?`;
+    return runQuery(query, [currentTime, userId]);
 }
 
 async function userExists(userId) {
@@ -40,15 +56,6 @@ async function userExists(userId) {
     });
 }
 
-async function addXp(userId, amount) {
-    const query = `UPDATE xp SET total_xp = COALESCE((SELECT total_xp FROM xp WHERE user_id = ?), 0) + ? WHERE user_id = ?`;
-    return runQuery(query, [userId, amount, userId]);
-}
-
-async function removeCoins(userId, amount) {
-    const query = `UPDATE economy SET money = COALESCE((SELECT money FROM economy WHERE user_id = ?), 0) - ? WHERE user_id = ?`;
-    return runQuery(query, [userId, amount, userId]);
-}
 
 function getBalance(userId) {
     const query = "SELECT money FROM economy WHERE user_id = ?";
@@ -74,11 +81,6 @@ async function getLastClaim(userId) {
             resolve(row ? row.last_claim : null);
         });
     });
-}
-
-async function updateLastClaim(userId, currentTime) {
-    const query = `UPDATE economy SET last_claim = ? WHERE user_id = ?`;
-    return runQuery(query, [currentTime, userId]);
 }
 
 module.exports = {
