@@ -147,6 +147,83 @@ if (interaction.isStringSelectMenu()) {
     });
   }
 
+  if(selectedValue === 'configtickets') {
+    interaction.message.edit()
+
+    if ( !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+      interaction.reply({ embeds: [embeds.embednaopode], ephemeral: true });
+      return;
+    }
+
+    let register_error = new EmbedBuilder()
+    .setDescription(`\`\`❌\`\` *O ID do servidor não está registrado na tabela de servidores.*`)
+    .setColor(config.EmbedColor);
+
+    const guildId = interaction.guild.id;
+
+    const serverExistQuery = `SELECT * FROM servidores WHERE guild_id = ?`;
+
+    db.get(serverExistQuery, [guildId], (err, row) => {
+      if (err) {
+        interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
+        return;
+      }
+  
+      if (!row) {
+        interaction.reply({embeds: [register_error], ephemeral: true});
+        return;
+      }
+      
+      const selectMenuOptions = [
+        { label: 'Configurar Cargos', value: 'tktroles', emoji: '🔧', description: 'Configure os cargos para gerenciar tickets.' },
+        { label: 'Configurar Categoria', value: 'tktcat', emoji: '🗂️', description: 'Configure a categoria padrão para novos tickets.' },
+        { label: 'Configurar Ranking', value: 'tktrank', emoji: '🏆', description: 'Configure o ranking de prioridade para tickets.' },
+        { label: 'Configurar Logs Ticket', value: 'tktlogst', emoji: '📝', description: 'Configure o canal para logs de tickets.' },
+    ];
+    
+    const selectMenu = new SelectMenuBuilder()
+        .setCustomId('selectmenu')
+        .setPlaceholder('Selecione uma opção')
+        .addOptions(selectMenuOptions);
+    
+    const row_builder = new ActionRowBuilder().addComponents(selectMenu);
+    
+    interaction.reply({components: [row_builder], ephemeral: true })
+  
+
+    })
+  }
+
+//tickets
+
+if(selectedValue === 'tktroles') {
+  interaction.message.edit()
+
+  if ( !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
+    interaction.reply({ embeds: [embeds.embednaopode], ephemeral: true });
+    return;
+  }
+
+  const modal = new ModalBuilder()
+  .setCustomId("tktcfgroles")
+  .setTitle("Insira o cargo para adicionar");
+
+  const modal_1 = new TextInputBuilder()
+  .setCustomId("tkt_addrole")
+  .setLabel("Qual o ID do Cargo?")
+  .setStyle(TextInputStyle.Short)
+  .setPlaceholder("Insira o ID do Cargo aqui: ")
+  .setMinLength(1)
+  .setRequired(true);
+
+  const resposta_1 = new ActionRowBuilder().addComponents(modal_1);
+  modal.addComponents(resposta_1);
+  await interaction.showModal(modal);
+
+}
+
+
+
   if (selectedValue === 'configurarlogs') {
     interaction.message.edit()
     
@@ -290,7 +367,12 @@ if (interaction.customId === 'cfglogs') {
 }
 
 
+if(interaction.customId === 'tktcfgroles') {
+  const cfg_roles_tkt = interaction.fields.getTextInputValue('tkt_addrole');
 
+  
+
+}
 
 
 };

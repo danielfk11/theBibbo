@@ -3,11 +3,14 @@ const config = require("../../../config.json");
 const embeds = require("../../utils/embeds")
 
 module.exports = {
-  name: "manage-panel", //NAME
+  name: "send-panel", //NAME
   description: "helper", //DESC
   type: ApplicationCommandType.ChatInput,
 
   run: async (client, interaction) => {
+
+
+
 
   }
 };

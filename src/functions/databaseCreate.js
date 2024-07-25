@@ -73,6 +73,28 @@ function createDatabase() {
                 });
             }
         });
+
+        db.get("SELECT name FROM sqlite_master WHERE type='table' AND name='tickets'", (err, row) => {
+            if (err) {
+                console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao verificar tabela: ${err.message}`)}`);
+                return;
+            }
+
+            if (!row) {
+                db.run(`CREATE TABLE tickets (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    guild_id TEXT,
+                    opener TEXT,
+                    finished INTEGER DEFAULT 0
+                )`, function(err) {
+                    if (err) {
+                        console.error(`${colors.red("-> ")} ${colors.gray("[ /・Database ] - ❌ ")} ${colors.cyan(`Erro ao criar tabela: ${err.message}`)}`);
+                    } else {
+                        console.log(`${colors.green("-> ")} ${colors.gray("[ /・Database ] - ✅ ")} ${colors.grey(`Tabela "TICKETS" criada com sucesso`)}`);
+                    }
+                });
+            }
+        });
     });
 }
 
