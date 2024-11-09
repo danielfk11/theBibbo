@@ -85,7 +85,7 @@ module.exports = async (client, interaction, guild, message) => {
 
   if(interaction.customId === 'alteranome') {
     const new_name = interaction.fields.getTextInputValue('alterar_nome');
-  
+
     try {
       await client.user.setUsername(new_name);
       await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
@@ -93,11 +93,11 @@ module.exports = async (client, interaction, guild, message) => {
       await interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
     }
 }
-  
+
 
 if(interaction.customId === 'alterfoto') {
     const new_name = interaction.fields.getTextInputValue('alterar_foto');
-  
+
     try {
       await client.user.setAvatar(new_name);
       await interaction.reply({embeds: [embeds.sucesso_embed], ephemeral: true});
@@ -109,7 +109,7 @@ if(interaction.customId === 'alterfoto') {
 
 if (interaction.isStringSelectMenu()) {
   const selectedValue = interaction.values[0];
-  
+
   if (selectedValue === 'createdb') {
     interaction.message.edit()
     const guildId = interaction.guildId;
@@ -168,28 +168,28 @@ if (interaction.isStringSelectMenu()) {
         interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
         return;
       }
-  
+
       if (!row) {
         interaction.reply({embeds: [register_error], ephemeral: true});
         return;
       }
-      
+
       const selectMenuOptions = [
         { label: 'Configurar Cargos', value: 'tktroles', emoji: '🔧', description: 'Configure os cargos para gerenciar tickets.' },
         { label: 'Configurar Categoria', value: 'tktcat', emoji: '🗂️', description: 'Configure a categoria padrão para novos tickets.' },
         { label: 'Configurar Ranking', value: 'tktrank', emoji: '🏆', description: 'Configure o ranking de prioridade para tickets.' },
         { label: 'Configurar Logs Ticket', value: 'tktlogst', emoji: '📝', description: 'Configure o canal para logs de tickets.' },
     ];
-    
+
     const selectMenu = new SelectMenuBuilder()
         .setCustomId('selectmenu')
         .setPlaceholder('Selecione uma opção')
         .addOptions(selectMenuOptions);
-    
+
     const row_builder = new ActionRowBuilder().addComponents(selectMenu);
-    
+
     interaction.reply({components: [row_builder], ephemeral: true })
-  
+
 
     })
   }
@@ -226,7 +226,7 @@ if(selectedValue === 'tktroles') {
 
   if (selectedValue === 'configurarlogs') {
     interaction.message.edit()
-    
+
     if ( !interaction.member.permissions.has(PermissionFlagsBits.Administrator)) {
       interaction.reply({ embeds: [embeds.embednaopode], ephemeral: true });
       return;
@@ -245,29 +245,29 @@ if(selectedValue === 'tktroles') {
         interaction.reply({embeds: [embeds.embed_erro], ephemeral: true});
         return;
       }
-  
+
       if (!row) {
         interaction.reply({embeds: [register_error], ephemeral: true});
         return;
       }
-  
-  
+
+
       const modal = new ModalBuilder()
         .setCustomId("cfglogs")
         .setTitle("Altere o canal de logs do servidor");
-  
+
       const modal_1 = new TextInputBuilder()
         .setCustomId("alterandologs")
         .setLabel("Insira o ID para registrar o canal de logs")
         .setStyle(TextInputStyle.Short)
-        .setPlaceholder("✍️ Insira aqui o id do canal: ") 
+        .setPlaceholder("✍️ Insira aqui o id do canal: ")
         .setMinLength(1)
         .setRequired(true);
-  
+
       const resposta_1 = new ActionRowBuilder().addComponents(modal_1);
       modal.addComponents(resposta_1);
       interaction.showModal(modal);
-  
+
     });
   }
 
@@ -316,8 +316,8 @@ if (selectedValue === 'ecocreateuser') {
 if(selectedValue === 'ecogerenusers') {
   interaction.message.edit()
   const member = interaction.member;
-  const allowedIDs = [config.idddany, config.idsiix]; 
-  
+  const allowedIDs = [config.idddany, config.idsiix];
+
   if (!allowedIDs.includes(member.id)) {
     await interaction.reply({ embeds: [embeds.permEmbed], ephemeral: true });
     return;
@@ -330,7 +330,7 @@ if(selectedValue === 'ecogerenusers') {
     { label: 'Adicionar Usuario', value: 'adduserb', emoji: '👤', description: 'Adicione um novo usuário ao banco de dados.' },
     { label: 'Excluir Usuario', value: 'remuserb', emoji: '🗑️', description: 'Exclua o usuário do banco de dados.' },
   ];
-  
+
   const selectMenu = new SelectMenuBuilder()
       .setCustomId('selectmenu')
       .setPlaceholder('Selecione uma opção')
@@ -370,7 +370,7 @@ if (interaction.customId === 'cfglogs') {
 if(interaction.customId === 'tktcfgroles') {
   const cfg_roles_tkt = interaction.fields.getTextInputValue('tkt_addrole');
 
-  
+
 
 }
 

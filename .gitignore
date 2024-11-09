@@ -2,3 +2,5 @@
 **/database.db
 **.env
 **.vs/
+.DS_Store
+.zed/settings.json
